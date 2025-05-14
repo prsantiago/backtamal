@@ -93,12 +93,12 @@ class RedNeuronal(Modulo):
 
             # Actualizar pesos y reiniciar gradientes
             for p in self.parametros():
-                p.valor -= lr * p.gradiente
+                p.dato -= lr * p.gradiente
                 p.gradiente = 0
 
             # Imprimir resultados cada 5 epocas
             if epoca % 5 == 0:
-                print(f"Epoch {epoca}/{epocas}, Loss: {perd.valor:.4f}")
+                print(f"Epoch {epoca}/{epocas}, Loss: {perd.dato:.4f}")
 
     def prediccion(self, x):
         return [self(xi) for xi in x]

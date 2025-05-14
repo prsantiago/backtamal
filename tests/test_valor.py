@@ -11,7 +11,7 @@ def visualizar_grafo(nodo, visitados=None, nivel=0):
     if nodo in visitados:
         return
     visitados.add(nodo)
-    print('  ' * nivel + f"{nodo.etiqueta or nodo._op or 'valor'}: valor={nodo.valor}, gradiente={nodo.gradiente}")
+    print('  ' * nivel + f"{nodo.etiqueta or nodo._op or 'dato'}: dato={nodo.dato}, gradiente={nodo.gradiente}")
     for hijo in getattr(nodo, '_previos', []):
         visualizar_grafo(hijo, visitados, nivel + 1)
 
