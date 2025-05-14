@@ -2,28 +2,48 @@ import random
 
 from backtamal.engine import Valor
 
+class Modulo:
 
-class Neurona:
+    def grad_cero(self):
+        for p in self.parametros():
+            p.gradiente = 0
 
-    def __init__(self, nin):
+    def parametros(self):
+        return []
+
+class Neurona(Modulo):
+
+    def __init__(self, nin, nolineal=True, fn_act="relu"):
         self.w = [Valor(random.uniform(-1, 1)) for _ in range(nin)]
         self.b = Valor(random.uniform(-1, 1))
+        self.fn_act = fn_act
+        self.nolineal = nolineal
 
     def __call__(self, x):
         assert len(x) == len(self.w), "El tamaño de x no coincide con el número de pesos"
         
         out = self.b
-        out += sum(w * x_i for w, x_i in zip(self.w, x))
+        out += sum(w_i * x_i for w_i, x_i in zip(self.w, x))
 
-        return out.tanh()
+        # FIXME: Not the best way to do this
+        if self.fn_act == "relu":
+            out = out.relu()
+        elif self.fn_act == "tanh":
+            out = out.tanh()
+
+        return out
     
     def parametros(self):
         return self.w + [self.b]
     
-class Capa:
+    def __repr__(self):
+        return f"Neurona(w={self.w}, b={self.b}, nolineal={self.nolineal})"
+    
 
-    def __init__(self, nin, nout):
-        self.neuronas = [Neurona(nin) for _ in range(nout)]
+class Capa(Modulo):
+
+    def __init__(self, nin, nout, **kwargs):
+        self.neuronas = [Neurona(nin, **kwargs) for _ in range(nout)]
     
     def __call__(self, x):
         o = [neurona(x) for neurona in self.neuronas]
@@ -35,13 +55,16 @@ class Capa:
         for neurona in self.neuronas:
             params.extend(neurona.parametros())
         return params
+    
+    def __repr__(self):
+        return f"Capa(neuronas=[{', '.join(str(n) for n in self.neurons)}]"
 
  
-class RedNeuronal:
+class RedNeuronal(Modulo):
 
     def __init__(self, nin, ncapas):
         sz = [nin] + ncapas
-        self.capas = [Capa(sz[i], sz[i+1]) for i in range(len(ncapas))]
+        self.capas = [Capa(sz[i], sz[i+1], nolineal=i!=len(ncapas)-1) for i in range(len(ncapas))]
     
     def __call__(self, x):
         assert isinstance(x, list), "x debe ser una lista"
@@ -79,3 +102,6 @@ class RedNeuronal:
 
     def prediccion(self, x):
         return [self(xi) for xi in x]
+    
+    def __repr__(self):
+        return f"RedNeuronal(capacidades=[{', '.join(str(layer) for layer in self.layers)}])"
