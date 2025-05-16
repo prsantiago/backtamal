@@ -50,17 +50,17 @@ def benchmark(x1, x2, w1, w2, b, x1c, x2c, w1c, w2c, bc, N=10000):
 
 if __name__ == "__main__":
     # Declaración de variables para Valor
-    x1 = Valor(2.0, etiqueta='x1')
-    x2 = Valor(0.0, etiqueta='x2')
-    w1 = Valor(-3.0, etiqueta='w1')
-    w2 = Valor(1.0, etiqueta='w2')
-    b = Valor(6.8813735870195432, etiqueta='b')
+    x1 = Valor(3.0, etiqueta='x1')
+    x2 = Valor(1.0, etiqueta='x2')
+    w1 = Valor(-1.0, etiqueta='w1')
+    w2 = Valor(0.5, etiqueta='w2')
+    b = Valor(3.0, etiqueta='b')
 
-    x1c = ValorCython(2.0, etiqueta='x1')
-    x2c = ValorCython(0.0, etiqueta='x2')
-    w1c = ValorCython(-3.0, etiqueta='w1')
-    w2c = ValorCython(1.0, etiqueta='w2')
-    bc = ValorCython(6.8813735870195432, etiqueta='b')
+    x1c = ValorCython(3.0, etiqueta='x1')
+    x2c = ValorCython(1.0, etiqueta='x2')
+    w1c = ValorCython(-1.0, etiqueta='w1')
+    w2c = ValorCython(0.5, etiqueta='w2')
+    bc = ValorCython(3.0, etiqueta='b')
 
     # Visualización de grafo para Valor
     salida = forward_backward_neurona(x1, x2, w1, w2, b)
