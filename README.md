@@ -9,7 +9,7 @@
 - Implementación clara desde cero de autodiff basado en grafos.
 - Operadores matemáticos básicos (`+`, `-`, `*`, `/`, `**`) con retropropagación.
 - Soporte para funciones no lineales como `tanh`, `exp`, `relu`, etc.
-- Compilación con Cython para mejorar el rendimiento de `Value` y otras funciones clave.
+- Compilación con Cython para mejorar el rendimiento de `Valor` y otras funciones clave.
 - Código comentado y pensado para aprendizaje y experimentación.
 
 ---
@@ -49,7 +49,7 @@ from backtamal.engine import Valor
 a = Valor(2.0)
 b = Valor(3.0)
 c = a * b + a
-c.backward()
+c.retropropagacion()
 print(a.gradiente)  # Ejemplo de uso
 ```
 

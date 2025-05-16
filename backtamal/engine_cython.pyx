@@ -83,7 +83,7 @@ class Valor:
 
         return out
 
-    def backward(self):
+    def retropropagacion(self):
         topo = []
         visitados = set()
         def construir_topo(valor):

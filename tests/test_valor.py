@@ -25,7 +25,7 @@ def forward_backward_neurona(x1, x2, w1, w2, b):
     """
     n = x1 * w1 + x2 * w2 + b
     o = n.tanh()
-    o.backward()
+    o.retropropagacion()
     return o
 
 def benchmark(x1, x2, w1, w2, b, x1c, x2c, w1c, w2c, bc, N=10000):

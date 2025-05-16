@@ -83,7 +83,7 @@ class RedNeuronal():
             perd = sum((yout - ygt) ** 2 for ygt, yout in zip(y, ypred))
             
             # Paso hacia atras (descenso del gradiente)
-            perd.backward()
+            perd.retropropagacion()
 
             # Actualizar pesos y reiniciar gradientes
             for p in self.parametros():
