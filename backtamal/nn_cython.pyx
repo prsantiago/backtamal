@@ -1,11 +1,11 @@
 import random
 
-from backtamal.engine import Valor
+from backtamal.engine_cython import Valor
 
 
 class Neurona():
 
-    def __init__(self, nin, nolineal=True, fn_act="relu"):
+    def __init__(self, nin, nolineal=True, fn_act="tanh"):
         self.w = [Valor(random.uniform(-1, 1)) for _ in range(nin)]
         self.b = Valor(random.uniform(-1, 1))
         self.fn_act = fn_act
@@ -56,9 +56,9 @@ class Capa():
  
 class RedNeuronal():
 
-    def __init__(self, nin, ncapas):
+    def __init__(self, nin, ncapas, **kwargs):
         sz = [nin] + ncapas
-        self.capas = [Capa(sz[i], sz[i+1], nolineal=i!=len(ncapas)-1) for i in range(len(ncapas))]
+        self.capas = [Capa(sz[i], sz[i+1], nolineal=i!=len(ncapas)-1, **kwargs) for i in range(len(ncapas))]
     
     def __call__(self, x):
         assert isinstance(x, list), "x debe ser una lista"
