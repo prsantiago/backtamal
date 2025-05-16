@@ -77,7 +77,7 @@ class Valor:
         out = Valor(max(0, self.dato), (self,), 'relu')
 
         def retro():
-            if self.dato > 0:
+            if out.dato > 0:
                 self.gradiente += out.gradiente
         out._retroprop = retro
 
