@@ -2,16 +2,8 @@ import random
 
 from backtamal.engine import Valor
 
-class Modulo:
 
-    def grad_cero(self):
-        for p in self.parametros():
-            p.gradiente = 0
-
-    def parametros(self):
-        return []
-
-class Neurona(Modulo):
+class Neurona():
 
     def __init__(self, nin, nolineal=True, fn_act="relu"):
         self.w = [Valor(random.uniform(-1, 1)) for _ in range(nin)]
@@ -26,10 +18,12 @@ class Neurona(Modulo):
         out += sum(w_i * x_i for w_i, x_i in zip(self.w, x))
 
         # FIXME: Not the best way to do this
-        if self.fn_act == "relu":
+        if self.nolineal and self.fn_act == "relu":
             out = out.relu()
-        elif self.fn_act == "tanh":
+        elif self.nolineal and self.fn_act == "tanh":
             out = out.tanh()
+        else:
+            out = out
 
         return out
     
@@ -40,7 +34,7 @@ class Neurona(Modulo):
         return f"Neurona(w={self.w}, b={self.b}, nolineal={self.nolineal})"
     
 
-class Capa(Modulo):
+class Capa():
 
     def __init__(self, nin, nout, **kwargs):
         self.neuronas = [Neurona(nin, **kwargs) for _ in range(nout)]
@@ -57,10 +51,10 @@ class Capa(Modulo):
         return params
     
     def __repr__(self):
-        return f"Capa(neuronas=[{', '.join(str(n) for n in self.neurons)}]"
+        return f"Capa(neuronas=[{', '.join(str(n) for n in self.neuronas)}])"
 
  
-class RedNeuronal(Modulo):
+class RedNeuronal():
 
     def __init__(self, nin, ncapas):
         sz = [nin] + ncapas
@@ -104,4 +98,4 @@ class RedNeuronal(Modulo):
         return [self(xi) for xi in x]
     
     def __repr__(self):
-        return f"RedNeuronal(capacidades=[{', '.join(str(layer) for layer in self.layers)}])"
+        return f"RedNeuronal(capacidades=[{', '.join(str(layer) for layer in self.capas)}])"
